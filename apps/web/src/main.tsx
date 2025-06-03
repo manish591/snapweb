@@ -1,10 +1,13 @@
 import { createRoot } from 'react-dom/client';
-import './style.css';
+import '@repo/ui/globals.css';
+import App from './app';
 
-const App = () => (
-  <div>
-    <h1>snapweb</h1>
-  </div>
-);
+function Main() {
+  return (
+    <div>
+      <App />
+    </div>
+  );
+}
 
-createRoot(document.getElementById('app')!).render(<App />);
+createRoot(document.getElementById('app')!).render(<Main />);
