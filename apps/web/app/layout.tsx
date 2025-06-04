@@ -1,30 +1,26 @@
-import { Geist, Geist_Mono } from "next/font/google"
+import { Manrope } from 'next/font/google';
 
-import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
+import '@snapweb/ui/globals.css';
+import { Providers } from '@/components/providers';
 
-const fontSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+const font = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['800', '700', '500'],
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+        className={`${font.className} font-sans antialiased lowercase dark`}
       >
         <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }
