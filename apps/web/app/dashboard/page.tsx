@@ -10,11 +10,17 @@ import {
   Trash2,
   Code,
   ArrowLeft,
-  Github,
 } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { auth } from '@/auth';
 import { Button } from '@snapweb/ui/components/button';
 import { Input } from '@snapweb/ui/components/input';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@snapweb/ui/components/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,72 +28,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@snapweb/ui/components/dropdown-menu';
-import { redirect } from 'next/navigation';
 
-const projects = [
-  {
-    id: 1,
-    name: 'buildingpublic',
-    url: 'build-eight.vercel.app',
-    repo: 'manish591/buildingpublic',
-    lastCommit: 'fix casing issue',
-    commitDate: 'May 27',
-    branch: 'main',
-    avatar: 'B',
-    avatarColor: 'bg-yellow-500',
-    status: 'deployed',
-  },
-  {
-    id: 2,
-    name: 'portfolio',
-    url: 'portfolio-psi-khaki-27.vercel.app',
-    repo: 'manish591/portfolio',
-    lastCommit: 'responsive',
-    commitDate: 'May 23',
-    branch: 'main',
-    avatar: 'P',
-    avatarColor: 'bg-blue-500',
-    status: 'deployed',
-  },
-  {
-    id: 3,
-    name: 'ghlon',
-    url: 'ghlon.vercel.app',
-    repo: 'manish591/ghlon',
-    lastCommit: 'new',
-    commitDate: 'Mar 4',
-    branch: 'main',
-    avatar: '▲',
-    avatarColor: 'bg-white text-black',
-    status: 'deployed',
-  },
-  {
-    id: 4,
-    name: 'anon-chat-web',
-    url: 'anon-chat-web.vercel.app',
-    repo: 'manish591/anon-chat-web',
-    lastCommit: 'updated api endpoint',
-    commitDate: '12/19/24',
-    branch: 'main',
-    avatar: 'ac',
-    avatarColor: 'bg-gray-600',
-    status: 'deployed',
-  },
-  {
-    id: 5,
-    name: 'job-board-ui',
-    url: 'job-board-ui-psi.vercel.app',
-    repo: 'manish591/job-board-ui',
-    lastCommit: 'updated sidebar width',
-    commitDate: '6/28/24',
-    branch: 'main',
-    avatar: 'a',
-    avatarColor: 'bg-red-500',
-    status: 'error',
-  },
-];
-
-// projects = [];
+const projects = [];
 
 export default async function Dashboard() {
   const session = await auth();
@@ -108,15 +50,25 @@ export default async function Dashboard() {
                   <Code className="w-5 h-5" strokeWidth={3} />
                 </div>
                 <span className="text-foreground/30 text-xl font-[300]">/</span>
-                <span className="text-md font-semibold ml-1">
-                  manish591&apos;s projects
+                <span className="text-md ml-1 font-[500]">
+                  {session.user.name?.split(' ')[0]}&apos;s projects
                 </span>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                <span className="text-sm font-medium">M</span>
-              </div>
+            <div>
+              <Avatar>
+                <AvatarImage
+                  className="w-8 h-8"
+                  src={session.user.image ?? ''}
+                />
+                <AvatarFallback>
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                    <span className="text-sm font-medium">
+                      {session.user.name?.split('')[0]}
+                    </span>
+                  </div>
+                </AvatarFallback>
+              </Avatar>
             </div>
           </div>
         </div>
@@ -179,71 +131,66 @@ export default async function Dashboard() {
 
             {/* Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project) => (
-                <div
-                  key={project.id}
-                  className="bg-card text-card-foreground rounded-lg p-6 hover:border-gray-700 transition-colors group"
-                >
-                  {/* Project Header */}
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center space-x-3">
-                      <div
-                        className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium text-black bg-foreground mb-[2px]`}
-                      >
-                        {project.avatar}
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-white">
-                          {project.name}
-                        </h3>
-                        <p className="text-sm text-gray-400">{project.url}</p>
-                      </div>
+              <div className="bg-card text-card-foreground rounded-lg p-6 hover:border-gray-700 transition-colors group">
+                {/* Project Header */}
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div
+                      className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium text-black bg-foreground mb-[2px]`}
+                    >
+                      a
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                      >
-                        <ExternalLink className="w-4 h-4 text-gray-400" />
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                          >
-                            <MoreHorizontal className="w-4 h-4 text-gray-400" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-gray-900 border-gray-700">
-                          <DropdownMenuItem className="text-gray-300 hover:text-white hover:bg-gray-800">
-                            <Eye className="w-4 h-4 mr-2" />
-                            View Project
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-gray-300 hover:text-white hover:bg-gray-800">
-                            <Settings className="w-4 h-4 mr-2" />
-                            Project Settings
-                          </DropdownMenuItem>
-                          <DropdownMenuSeparator className="bg-gray-700" />
-                          <DropdownMenuItem className="text-red-400 hover:text-red-300 hover:bg-gray-800">
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete Project
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                    <div>
+                      <h3 className="font-medium text-white">buildinpubliq</h3>
+                      <p className="text-sm text-gray-400">
+                        build-eight.vercel.app
+                      </p>
                     </div>
                   </div>
-                  {/* Repository Link */}
-                  <div className="flex items-center space-x-2 mb-3">
-                    <p className="text-foreground/60 text-sm">
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                      Inventore ipsa, explicabo blanditiis facere dolorum animi.
-                    </p>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
+                    >
+                      <ExternalLink className="w-4 h-4 text-gray-400" />
+                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
+                        >
+                          <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="bg-gray-900 border-gray-700">
+                        <DropdownMenuItem className="text-gray-300 hover:text-white hover:bg-gray-800">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Project
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-gray-300 hover:text-white hover:bg-gray-800">
+                          <Settings className="w-4 h-4 mr-2" />
+                          Project Settings
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="bg-gray-700" />
+                        <DropdownMenuItem className="text-red-400 hover:text-red-300 hover:bg-gray-800">
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete Project
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 </div>
-              ))}
+                {/* Repository Link */}
+                <div className="flex items-center space-x-2 mb-3">
+                  <p className="text-foreground/60 text-sm">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Inventore ipsa, explicabo blanditiis facere dolorum animi.
+                  </p>
+                </div>
+              </div>
             </div>
           </>
         ) : (
@@ -268,13 +215,15 @@ export default async function Dashboard() {
                 <Plus className="w-4 h-4" />
                 Create New Project
               </Button>
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-300 hover:bg-gray-900"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                home
-              </Button>
+              <Link href="/">
+                <Button
+                  variant="outline"
+                  className="border-gray-700 text-gray-300 hover:bg-gray-900"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  home
+                </Button>
+              </Link>
             </div>
           </div>
         )}
