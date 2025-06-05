@@ -12,19 +12,22 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.9.1",
+    "@prisma/client": "6.9.0",
     "@snapweb/ui": "workspace:*",
     "lucide-react": "^0.475.0",
     "next": "^15.2.3",
+    "next-auth": "5.0.0-beta.28",
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@snapweb/eslint-config": "workspace:^",
+    "@snapweb/typescript-config": "workspace:*",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@snapweb/eslint-config": "workspace:^",
-    "@snapweb/typescript-config": "workspace:*",
     "typescript": "^5.7.3"
   }
 }

@@ -4,7 +4,6 @@ import {
   List,
   Plus,
   MoreHorizontal,
-  GitBranch,
   ExternalLink,
   Settings,
   Eye,
@@ -13,6 +12,7 @@ import {
   ArrowLeft,
   Github,
 } from 'lucide-react';
+import { auth } from '@/auth';
 import { Button } from '@snapweb/ui/components/button';
 import { Input } from '@snapweb/ui/components/input';
 import {
@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@snapweb/ui/components/dropdown-menu';
+import { redirect } from 'next/navigation';
 
 const projects = [
   {
@@ -88,7 +89,13 @@ const projects = [
 
 // projects = [];
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect('/auth');
+  }
+
   return (
     <div className="min-h-screen">
       {/* Header */}

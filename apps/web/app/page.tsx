@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ArrowRight, CheckCircle, Code, Zap } from 'lucide-react';
 import { Button } from '@snapweb/ui/components/button';
 
@@ -15,32 +16,36 @@ export default function Page() {
               <span className="text-xl font-semibold">snapweb</span>
             </div>
             <div className="hidden md:flex items-center space-x-10">
-              <a
+              <Link
                 href="#features"
                 className="text-sm opacity-60 hover:opacity-100 transition-opacity"
               >
                 Features
-              </a>
-              <a
-                href="#templates"
+              </Link>
+              <Link
+                href="/templates"
                 className="text-sm opacity-60 hover:opacity-100 transition-opacity"
               >
                 Templates
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#pricing"
                 className="text-sm opacity-60 hover:opacity-100 transition-opacity"
               >
                 Pricing
-              </a>
+              </Link>
               <div className="flex items-center gap-4">
-                <Button size="sm" variant="outline">
-                  signin
-                </Button>
-                <Button size="sm">
-                  Get Started
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
+                <Link href="/auth">
+                  <Button size="sm" variant="outline">
+                    signin
+                  </Button>
+                </Link>
+                <Link href="/auth">
+                  <Button size="sm">
+                    Get Started
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -67,11 +72,15 @@ export default function Page() {
             the world effortlessly.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 mt-8">
-            <Button>
-              build your portfolio
-              <ArrowRight className="w-4 h-4 mt-[2px]" />
-            </Button>
-            <Button variant="outline">view templates</Button>
+            <Link href="/dashboard">
+              <Button>
+                build your portfolio
+                <ArrowRight className="w-4 h-4 mt-[2px]" />
+              </Button>
+            </Link>
+            <Link href="/templates">
+              <Button variant="outline">view templates</Button>
+            </Link>
           </div>
           <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
             <div className="flex items-center text-foreground/60">
