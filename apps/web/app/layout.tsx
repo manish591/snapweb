@@ -6,7 +6,7 @@ import { Providers } from '@/components/providers';
 const font = Manrope({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['800', '700', '500'],
+  weight: ['300', '800', '700', '500'],
 });
 
 export default function RootLayout({
