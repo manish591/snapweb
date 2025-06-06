@@ -1,7 +1,14 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": ["NEXTAUTH_SECRET", "NODE_ENV"],
+  "globalEnv": [
+    "NEXTAUTH_SECRET",
+    "NODE_ENV",
+    "CLOUDINARY_CLOUD_NAME",
+    "CLOUDINARY_API_KEY",
+    "CLOUDINARY_API_SECRET",
+    "GOOGLE_API_KEY"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

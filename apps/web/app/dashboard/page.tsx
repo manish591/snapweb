@@ -1,35 +1,27 @@
 import {
-  Search,
-  Grid3X3,
-  List,
   Plus,
-  MoreHorizontal,
   ExternalLink,
-  Settings,
-  Eye,
-  Trash2,
   Code,
   ArrowLeft,
+  MoreVertical,
 } from 'lucide-react';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { auth } from '@/auth';
 import { Button } from '@snapweb/ui/components/button';
-import { Input } from '@snapweb/ui/components/input';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@snapweb/ui/components/avatar';
+import { CreateNewProject } from './create-new-project';
+import { getAllProjects } from './actions';
 import {
   DropdownMenu,
+  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
 } from '@snapweb/ui/components/dropdown-menu';
-
-const projects = [];
 
 export default async function Dashboard() {
   const session = await auth();
@@ -37,6 +29,8 @@ export default async function Dashboard() {
   if (!session?.user) {
     redirect('/auth');
   }
+
+  const projects = await getAllProjects();
 
   return (
     <div className="min-h-screen">
@@ -99,7 +93,7 @@ export default async function Dashboard() {
             {/* Search and Controls */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4 flex-1">
-                <div className="relative flex-1 max-w-md">
+                {/* <div className="relative flex-1 max-w-md">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" />
                   <Input placeholder="search projects..." className="pl-10" />
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
@@ -110,87 +104,87 @@ export default async function Dashboard() {
                       K
                     </kbd>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className="flex items-center space-x-3">
-                <div className="flex items-center border border-gray-700 rounded-md">
+                {/* <div className="flex items-center border border-gray-700 rounded-md">
                   <Button variant="ghost" className={`px-2 py-1`}>
                     <Grid3X3 className="w-4 h-4" />
                   </Button>
                   <Button variant="ghost" className={`px-2 py-1`}>
                     <List className="w-4 h-4" />
                   </Button>
-                </div>
-                <Button className="bg-white text-black hover:bg-gray-200">
-                  create new project
-                  <Plus className="w-4 h-4" />
-                </Button>
+                </div> */}
+                <CreateNewProject />
               </div>
             </div>
 
             {/* Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-card text-card-foreground rounded-lg p-6 hover:border-gray-700 transition-colors group">
-                {/* Project Header */}
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center space-x-3">
-                    <div
-                      className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium text-black bg-foreground mb-[2px]`}
-                    >
-                      a
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-white">buildinpubliq</h3>
-                      <p className="text-sm text-gray-400">
-                        build-eight.vercel.app
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                    >
-                      <ExternalLink className="w-4 h-4 text-gray-400" />
-                    </Button>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
+              {projects.map((project) => {
+                return (
+                  <div
+                    key={project.id}
+                    className="bg-card text-card-foreground rounded-lg p-6 hover:border-gray-700 transition-colors group"
+                  >
+                    {/* Project Header */}
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <div
+                          className={`w-8 h-8 rounded-md flex items-center justify-center text-sm font-medium text-black bg-foreground mb-[2px]`}
                         >
-                          <MoreHorizontal className="w-4 h-4 text-gray-400" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="bg-gray-900 border-gray-700">
-                        <DropdownMenuItem className="text-gray-300 hover:text-white hover:bg-gray-800">
-                          <Eye className="w-4 h-4 mr-2" />
-                          View Project
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-gray-300 hover:text-white hover:bg-gray-800">
-                          <Settings className="w-4 h-4 mr-2" />
-                          Project Settings
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator className="bg-gray-700" />
-                        <DropdownMenuItem className="text-red-400 hover:text-red-300 hover:bg-gray-800">
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete Project
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                          {project.title.split('')[0]}
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-white">
+                            {project.title}
+                          </h3>
+                          <p className="text-sm text-gray-400">
+                            {project.portfolioURL}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1"
+                              aria-label="Open menu"
+                            >
+                              <MoreVertical className="w-5 h-5 text-gray-400" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={project.portfolioURL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <span className="flex items-center gap-2">
+                                  <ExternalLink className="w-4 h-4" />
+                                  View Live
+                                </span>
+                              </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link href={`/dashboard/projects/${project.id}`}>
+                                <span className="flex items-center gap-2">
+                                  <Code className="w-4 h-4" />
+                                  Open Project
+                                </span>
+                              </Link>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                {/* Repository Link */}
-                <div className="flex items-center space-x-2 mb-3">
-                  <p className="text-foreground/60 text-sm">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Inventore ipsa, explicabo blanditiis facere dolorum animi.
-                  </p>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </>
         ) : (
@@ -211,10 +205,7 @@ export default async function Dashboard() {
             </p>
 
             <div className="flex items-center space-x-4">
-              <Button>
-                <Plus className="w-4 h-4" />
-                Create New Project
-              </Button>
+              <CreateNewProject />
               <Link href="/">
                 <Button
                   variant="outline"
